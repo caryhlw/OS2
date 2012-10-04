@@ -5,10 +5,11 @@
 
 //Data pertaining to the memory header
 struct memHeader {
-	unsigned long size;
-	struct memHeader *next;
-	char * sanityCheck;
-	unsigned char dataStart[0];
+  unsigned long size;
+  struct memHeader *prev;
+  struct memHeader *next;
+  char * sanityCheck;
+  unsigned char dataStart[0];
 };
 
 unsigned char mem[4000];
@@ -31,6 +32,6 @@ void *kmalloc(int size)
 	hdr2->size = size;
 	hdr2->next = (struct memHeader *) (memStart + hdr->size + sizeof (struct memHeader));
 	hdr2 = hdr2->next;
-	*memStart = hdr2->dataStart;
+	memStart = &hdr2->dataStart;
 	return memStart;
 }
